@@ -13,10 +13,18 @@ class LandingController extends Controller
         $this->view('landing', [
             'store' => [
                 'name' => 'ARAN Cucine Store Piacenza',
-                'address' => 'Via Emilia Parmense 198, Piacenza (PC)',
-                'phone' => '0523 123456',
+                'address' => 'Via Roma, 24, 29010 Pontenure PC',
+                'phone' => '0523718895',
                 'email' => 'info@arancucine-piacenza.it',
-                'hours' => 'Lun - Sab 09:00 / 19:30 • Dom su appuntamento',
+                'hours' => [
+                    'Lunedì' => '09:30–12:30 / 15:30–19:30',
+                    'Martedì' => '09:30–12:30 / 15:30–19:30',
+                    'Mercoledì' => '09:30–12:30 / 15:30–19:30',
+                    'Giovedì' => '09:30–12:30 / 15:30–19:30',
+                    'Venerdì' => '09:30–12:30 / 15:30–19:30',
+                    'Sabato' => '09:30–12:30 / 15:30–19:30',
+                    'Domenica' => 'Chiuso',
+                ],
             ],
             'promo' => [
                 'title_prefix' => 'È GIÀ',
