@@ -1,0 +1,16 @@
+<svg width="280" height="240" viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ovenTitle">
+  <title id="ovenTitle">Forno PizzaChef / Steam Pro</title>
+  <rect x="12" y="24" width="256" height="196" rx="18" fill="#121212" stroke="#2f2f2f" stroke-width="4"/>
+  <rect x="36" y="64" width="208" height="120" rx="12" fill="#0b0b0b" stroke="#3c3c3c" stroke-width="3"/>
+  <rect x="60" y="96" width="160" height="60" rx="10" fill="url(#glow)" opacity="0.7"/>
+  <rect x="70" y="112" width="140" height="28" rx="8" fill="#1f1f1f"/>
+  <rect x="96" y="36" width="88" height="8" rx="4" fill="#272727"/>
+  <circle cx="216" cy="40" r="10" fill="#00aba9"/>
+  <rect x="46" y="192" width="188" height="6" rx="3" fill="#2a2a2a"/>
+  <defs>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#414040"/>
+      <stop offset="100%" stop-color="#1c1c1c"/>
+    </linearGradient>
+  </defs>
+</svg>

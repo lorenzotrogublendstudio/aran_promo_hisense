@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Core;
+
+/**
+ * Wrapper per accedere alle configurazioni con notazione "dot".
+ */
+class Config
+{
+    public function __construct(private array $items)
+    {
+    }
+
+    public function get(string $key, mixed $default = null): mixed
+    {
+        $segments = explode('.', $key);
+        $value = $this->items;
+
+        foreach ($segments as $segment) {
+            if (!is_array($value) || !array_key_exists($segment, $value)) {
+                return $default;
+            }
+            $value = $value[$segment];
+        }
+
+        return $value;
+    }
+}

@@ -1,0 +1,38 @@
+<svg width="900" height="480" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="kitchenTitle">
+  <title id="kitchenTitle">Render cucina moderna con isola</title>
+  <defs>
+    <linearGradient id="top" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2b2b2b"/>
+      <stop offset="100%" stop-color="#161616"/>
+    </linearGradient>
+    <linearGradient id="island" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6c675f"/>
+      <stop offset="100%" stop-color="#3f3c38"/>
+    </linearGradient>
+    <linearGradient id="counter" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d9c7b1"/>
+      <stop offset="100%" stop-color="#b99c79"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="480" rx="36" fill="#111"/>
+  <g transform="translate(60 60)">
+    <rect width="780" height="280" rx="24" fill="url(#top)"/>
+    <rect x="30" y="32" width="124" height="216" rx="12" fill="#3a3a3a"/>
+    <rect x="174" y="32" width="124" height="216" rx="12" fill="#1c1c1c"/>
+    <rect x="318" y="32" width="124" height="216" rx="12" fill="#111"/>
+    <rect x="462" y="32" width="124" height="216" rx="12" fill="#2b2a28"/>
+    <rect x="606" y="32" width="124" height="216" rx="12" fill="#181818"/>
+    <rect x="318" y="100" width="124" height="48" rx="6" fill="#050505"/>
+    <rect x="462" y="100" width="124" height="48" rx="6" fill="#050505"/>
+    <circle cx="256" cy="228" r="14" fill="#7a7268"/>
+    <circle cx="400" cy="228" r="14" fill="#7a7268"/>
+  </g>
+  <g transform="translate(180 262)">
+    <rect width="540" height="120" rx="18" fill="url(#island)"/>
+    <rect x="360" y="70" width="180" height="80" rx="12" fill="#2a211c"/>
+    <rect x="40" y="100" width="220" height="24" rx="8" fill="url(#counter)"/>
+    <rect x="72" y="80" width="60" height="16" rx="8" fill="#3f2b20"/>
+    <rect x="320" y="12" width="22" height="46" rx="8" fill="#131313"/>
+    <rect x="308" y="22" width="46" height="8" rx="4" fill="#222"/>
+  </g>
+</svg>

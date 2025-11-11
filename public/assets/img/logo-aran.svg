@@ -1,0 +1,8 @@
+<svg width="220" height="80" viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="aranTitle">
+  <title id="aranTitle">ARAN Cucine</title>
+  <g fill="none" fill-rule="evenodd">
+    <path d="M34 14 12 26v26l22 12 22-12V26L34 14z" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M68 56V24h11.2l8.4 17 8.4-17h11.2v32H96V38.4L87.6 54h-4L75.2 38.4V56H68Zm55.6 0-13-32h12.2l7.6 19 7.8-19h12l-13 32h-13.6Zm45.8-32h12.6l14.8 32h-12.8l-2.4-5.6h-13.6l-2.4 5.6h-12.4l14.8-32Zm4.4 18h7.6l-3.8-8.8-3.8 8.8Zm43-18h11.6l9.4 13.8L208.6 56h-12.4l-6.8-10.4-6.8 10.4H170l14.6-18.4-9.4-12.6h12l6 8.6 5.8-8.6Z" fill="#000"/>
+    <text x="68" y="74" font-family="Space Grotesk, sans-serif" font-size="16" font-weight="600" fill="#000" letter-spacing="0.2em">CUCINE</text>
+  </g>
+</svg>

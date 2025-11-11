@@ -1,0 +1,15 @@
+<svg width="360" height="240" viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tvTitle">
+  <title id="tvTitle">Smart TV Hisense 50 pollici</title>
+  <defs>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb347"/>
+      <stop offset="30%" stop-color="#ff6f61"/>
+      <stop offset="60%" stop-color="#8a2be2"/>
+      <stop offset="100%" stop-color="#04c2c7"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="344" height="208" rx="18" fill="url(#screen)"/>
+  <rect x="8" y="8" width="344" height="208" rx="18" fill="none" stroke="#181818" stroke-width="6"/>
+  <rect x="160" y="216" width="40" height="12" rx="6" fill="#181818"/>
+  <rect x="120" y="228" width="120" height="6" rx="3" fill="#0b0b0b"/>
+</svg>
