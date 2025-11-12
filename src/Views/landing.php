@@ -33,6 +33,11 @@ $promo = $promo ?? [];
         <button type="button" class="btn btn--primary js-open-lead-modal">Prenota la promo</button>
     </div>
 </header>
+<div class="hero-cta hero-cta--mobile">
+    <div class="hero__cta">
+        <button type="button" class="btn btn--primary js-open-lead-modal">Prenota la promo</button>
+    </div>
+</div>
 <div class="page">
     <section class="bundle" id="bundle">
         <div class="bundle__intro">

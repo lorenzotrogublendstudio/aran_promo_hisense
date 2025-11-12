@@ -142,6 +142,10 @@ a {
     z-index: 3;
 }
 
+.hero-cta--mobile {
+    display: none;
+}
+
 .hero-cta .hero__cta {
     justify-content: center;
 }
@@ -665,14 +669,15 @@ a {
 
 @media (max-width: 1180px) and (orientation: landscape) {
     .hero--image {
-        min-height: 95vh;
-        height: 95vh;
+        min-height: 100vh;
+        height: 100vh;
     }
 
     .hero__picture img {
-        object-fit: cover;
+        object-fit: contain;
+        width: auto;
+        max-width: 100%;
         height: 100%;
-        width: 100%;
     }
 
     .hero-cta {
@@ -706,9 +711,24 @@ a {
 }
 
 @media (max-width: 720px) {
+    .hero--image {
+        min-height: 100vh;
+        height: 100vh;
+    }
+
     .hero-cta {
         padding: 0 20px;
         margin: 0 auto 24px;
+    }
+
+    .hero-cta--overlay {
+        display: none;
+    }
+
+    .hero-cta--mobile {
+        display: block;
+        padding: 0 20px;
+        margin: 24px auto;
     }
 
     .hero__cta {
