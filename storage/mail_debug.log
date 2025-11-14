@@ -1,0 +1,150 @@
+[2025-11-14T09:55:22+01:00] sendLead:start {"email":"lorenzotrogu@gmail.com"}
+[2025-11-14T09:55:22+01:00] deliver:prepared {"to":"carlo.mondani@2mmondani.it, info@2mmondani.it, saverio.rizzi@2mmondani.it, gianluca.pacquola@2mmondani.it","subject":"[Aran Cucine Piacenza] Nuova richiesta dal sito"}
+[2025-11-14T09:55:22+01:00] deliver:smtp_attempt {"host":"mail.2mmondani.it","port":"587","secure":"tls"}
+[2025-11-14T09:55:22+01:00] smtp:connecting {"remote":"mail.2mmondani.it","port":587}
+[2025-11-14T09:55:22+01:00] smtp:resp_greeting {"code":220,"ok":true}
+[2025-11-14T09:55:22+01:00] smtp:cmd_ehlo_send {"command":"EHLO PCWEB"}
+[2025-11-14T09:55:22+01:00] smtp:resp_ehlo {"code":250,"ok":true}
+[2025-11-14T09:55:22+01:00] smtp:cmd_starttls_send {"command":"STARTTLS"}
+[2025-11-14T09:55:23+01:00] smtp:resp_starttls {"code":220,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_ehlo_after_tls_send {"command":"EHLO PCWEB"}
+[2025-11-14T09:55:23+01:00] smtp:resp_ehlo_after_tls {"code":250,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_auth_login_send {"command":"AUTH LOGIN"}
+[2025-11-14T09:55:23+01:00] smtp:resp_auth_login {"code":334,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_auth_user_send {"command":"c29jaWFsQDJtbW9uZGFuaS5pdA=="}
+[2025-11-14T09:55:23+01:00] smtp:resp_auth_user {"code":334,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_auth_pass_send {"command":"TW9uZGFuaTIwMjUh"}
+[2025-11-14T09:55:23+01:00] smtp:resp_auth_pass {"code":235,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_mail_from_send {"command":"MAIL FROM:<social@2mmondani.it>"}
+[2025-11-14T09:55:23+01:00] smtp:resp_mail_from {"code":250,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<carlo.mondani@2mmondani.it>"}
+[2025-11-14T09:55:23+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<info@2mmondani.it>"}
+[2025-11-14T09:55:23+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<saverio.rizzi@2mmondani.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<gianluca.pacquola@2mmondani.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<pomaricos@aranworld.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<emmezeta.rap@libero.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<ciroc@aranworld.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<info@blendstudio.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<lorenzo@blendstudio.it>"}
+[2025-11-14T09:55:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_data_cmd_send {"command":"DATA"}
+[2025-11-14T09:55:24+01:00] smtp:resp_data_cmd {"code":354,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:resp_data_end {"code":250,"ok":true}
+[2025-11-14T09:55:24+01:00] smtp:cmd_quit_send {"command":"QUIT"}
+[2025-11-14T09:55:25+01:00] smtp:resp_quit {"code":221,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:success 
+[2025-11-14T09:55:25+01:00] deliver:smtp_result {"sent":true}
+[2025-11-14T09:55:25+01:00] sendLead:deliver_result {"sent":true}
+[2025-11-14T09:55:25+01:00] sendConfirmation:start {"to":"lorenzotrogu@gmail.com"}
+[2025-11-14T09:55:25+01:00] deliver:prepared {"to":"lorenzotrogu@gmail.com","subject":"Abbiamo ricevuto la tua richiesta"}
+[2025-11-14T09:55:25+01:00] deliver:smtp_attempt {"host":"mail.2mmondani.it","port":"587","secure":"tls"}
+[2025-11-14T09:55:25+01:00] smtp:connecting {"remote":"mail.2mmondani.it","port":587}
+[2025-11-14T09:55:25+01:00] smtp:resp_greeting {"code":220,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:cmd_ehlo_send {"command":"EHLO PCWEB"}
+[2025-11-14T09:55:25+01:00] smtp:resp_ehlo {"code":250,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:cmd_starttls_send {"command":"STARTTLS"}
+[2025-11-14T09:55:25+01:00] smtp:resp_starttls {"code":220,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:cmd_ehlo_after_tls_send {"command":"EHLO PCWEB"}
+[2025-11-14T09:55:25+01:00] smtp:resp_ehlo_after_tls {"code":250,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:cmd_auth_login_send {"command":"AUTH LOGIN"}
+[2025-11-14T09:55:25+01:00] smtp:resp_auth_login {"code":334,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:cmd_auth_user_send {"command":"c29jaWFsQDJtbW9uZGFuaS5pdA=="}
+[2025-11-14T09:55:25+01:00] smtp:resp_auth_user {"code":334,"ok":true}
+[2025-11-14T09:55:25+01:00] smtp:cmd_auth_pass_send {"command":"TW9uZGFuaTIwMjUh"}
+[2025-11-14T09:55:26+01:00] smtp:resp_auth_pass {"code":235,"ok":true}
+[2025-11-14T09:55:26+01:00] smtp:cmd_mail_from_send {"command":"MAIL FROM:<social@2mmondani.it>"}
+[2025-11-14T09:55:26+01:00] smtp:resp_mail_from {"code":250,"ok":true}
+[2025-11-14T09:55:26+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<lorenzotrogu@gmail.com>"}
+[2025-11-14T09:55:26+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T09:55:26+01:00] smtp:cmd_data_cmd_send {"command":"DATA"}
+[2025-11-14T09:55:26+01:00] smtp:resp_data_cmd {"code":354,"ok":true}
+[2025-11-14T09:55:26+01:00] smtp:resp_data_end {"code":250,"ok":true}
+[2025-11-14T09:55:26+01:00] smtp:cmd_quit_send {"command":"QUIT"}
+[2025-11-14T09:55:26+01:00] smtp:resp_quit {"code":221,"ok":true}
+[2025-11-14T09:55:26+01:00] smtp:success 
+[2025-11-14T09:55:26+01:00] deliver:smtp_result {"sent":true}
+[2025-11-14T09:55:26+01:00] sendConfirmation:deliver_result {"sent":true}
+[2025-11-14T10:02:22+01:00] sendLead:start {"email":"lorenzo.trogu@studenti.unipr.it"}
+[2025-11-14T10:02:22+01:00] deliver:prepared {"to":"carlo.mondani@2mmondani.it, info@2mmondani.it, saverio.rizzi@2mmondani.it, gianluca.pacquola@2mmondani.it, lorenzotrogu@gmail.com","subject":"[Aran Cucine Piacenza] Nuova richiesta dal sito"}
+[2025-11-14T10:02:22+01:00] deliver:smtp_attempt {"host":"mail.2mmondani.it","port":"587","secure":"tls"}
+[2025-11-14T10:02:22+01:00] smtp:connecting {"remote":"mail.2mmondani.it","port":587}
+[2025-11-14T10:02:22+01:00] smtp:resp_greeting {"code":220,"ok":true}
+[2025-11-14T10:02:22+01:00] smtp:cmd_ehlo_send {"command":"EHLO PCWEB"}
+[2025-11-14T10:02:22+01:00] smtp:resp_ehlo {"code":250,"ok":true}
+[2025-11-14T10:02:22+01:00] smtp:cmd_starttls_send {"command":"STARTTLS"}
+[2025-11-14T10:02:22+01:00] smtp:resp_starttls {"code":220,"ok":true}
+[2025-11-14T10:02:22+01:00] smtp:cmd_ehlo_after_tls_send {"command":"EHLO PCWEB"}
+[2025-11-14T10:02:23+01:00] smtp:resp_ehlo_after_tls {"code":250,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_auth_login_send {"command":"AUTH LOGIN"}
+[2025-11-14T10:02:23+01:00] smtp:resp_auth_login {"code":334,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_auth_user_send {"command":"c29jaWFsQDJtbW9uZGFuaS5pdA=="}
+[2025-11-14T10:02:23+01:00] smtp:resp_auth_user {"code":334,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_auth_pass_send {"command":"TW9uZGFuaTIwMjUh"}
+[2025-11-14T10:02:23+01:00] smtp:resp_auth_pass {"code":235,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_mail_from_send {"command":"MAIL FROM:<social@2mmondani.it>"}
+[2025-11-14T10:02:23+01:00] smtp:resp_mail_from {"code":250,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<carlo.mondani@2mmondani.it>"}
+[2025-11-14T10:02:23+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<info@2mmondani.it>"}
+[2025-11-14T10:02:23+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<saverio.rizzi@2mmondani.it>"}
+[2025-11-14T10:02:23+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<gianluca.pacquola@2mmondani.it>"}
+[2025-11-14T10:02:23+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:23+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<lorenzotrogu@gmail.com>"}
+[2025-11-14T10:02:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<pomaricos@aranworld.it>"}
+[2025-11-14T10:02:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<emmezeta.rap@libero.it>"}
+[2025-11-14T10:02:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<ciroc@aranworld.it>"}
+[2025-11-14T10:02:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<info@blendstudio.it>"}
+[2025-11-14T10:02:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<lorenzo@blendstudio.it>"}
+[2025-11-14T10:02:24+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_data_cmd_send {"command":"DATA"}
+[2025-11-14T10:02:24+01:00] smtp:resp_data_cmd {"code":354,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:resp_data_end {"code":250,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:cmd_quit_send {"command":"QUIT"}
+[2025-11-14T10:02:24+01:00] smtp:resp_quit {"code":221,"ok":true}
+[2025-11-14T10:02:24+01:00] smtp:success 
+[2025-11-14T10:02:24+01:00] deliver:smtp_result {"sent":true}
+[2025-11-14T10:02:24+01:00] sendLead:deliver_result {"sent":true}
+[2025-11-14T10:02:24+01:00] sendConfirmation:start {"to":"lorenzo.trogu@studenti.unipr.it"}
+[2025-11-14T10:02:24+01:00] deliver:prepared {"to":"lorenzo.trogu@studenti.unipr.it","subject":"Abbiamo ricevuto la tua richiesta"}
+[2025-11-14T10:02:24+01:00] deliver:smtp_attempt {"host":"mail.2mmondani.it","port":"587","secure":"tls"}
+[2025-11-14T10:02:24+01:00] smtp:connecting {"remote":"mail.2mmondani.it","port":587}
+[2025-11-14T10:02:25+01:00] smtp:resp_greeting {"code":220,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_ehlo_send {"command":"EHLO PCWEB"}
+[2025-11-14T10:02:25+01:00] smtp:resp_ehlo {"code":250,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_starttls_send {"command":"STARTTLS"}
+[2025-11-14T10:02:25+01:00] smtp:resp_starttls {"code":220,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_ehlo_after_tls_send {"command":"EHLO PCWEB"}
+[2025-11-14T10:02:25+01:00] smtp:resp_ehlo_after_tls {"code":250,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_auth_login_send {"command":"AUTH LOGIN"}
+[2025-11-14T10:02:25+01:00] smtp:resp_auth_login {"code":334,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_auth_user_send {"command":"c29jaWFsQDJtbW9uZGFuaS5pdA=="}
+[2025-11-14T10:02:25+01:00] smtp:resp_auth_user {"code":334,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_auth_pass_send {"command":"TW9uZGFuaTIwMjUh"}
+[2025-11-14T10:02:25+01:00] smtp:resp_auth_pass {"code":235,"ok":true}
+[2025-11-14T10:02:25+01:00] smtp:cmd_mail_from_send {"command":"MAIL FROM:<social@2mmondani.it>"}
+[2025-11-14T10:02:26+01:00] smtp:resp_mail_from {"code":250,"ok":true}
+[2025-11-14T10:02:26+01:00] smtp:cmd_rcpt_to_send {"command":"RCPT TO:<lorenzo.trogu@studenti.unipr.it>"}
+[2025-11-14T10:02:26+01:00] smtp:resp_rcpt_to {"code":250,"ok":true}
+[2025-11-14T10:02:26+01:00] smtp:cmd_data_cmd_send {"command":"DATA"}
+[2025-11-14T10:02:26+01:00] smtp:resp_data_cmd {"code":354,"ok":true}
+[2025-11-14T10:02:26+01:00] smtp:resp_data_end {"code":250,"ok":true}
+[2025-11-14T10:02:26+01:00] smtp:cmd_quit_send {"command":"QUIT"}
+[2025-11-14T10:02:26+01:00] smtp:resp_quit {"code":221,"ok":true}
+[2025-11-14T10:02:26+01:00] smtp:success 
+[2025-11-14T10:02:26+01:00] deliver:smtp_result {"sent":true}
+[2025-11-14T10:02:26+01:00] sendConfirmation:deliver_result {"sent":true}

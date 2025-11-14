@@ -48,7 +48,7 @@ $promo = $promo ?? [];
 
         <div class="bundle__items">
             <article class="bundle-card">
-                <img src="/assets/img/smart-tv.svg" alt="Smart TV Hisense" width="280" height="200" loading="lazy">
+                <img src="/assets/img/SMART-TV.png" alt="Smart TV Hisense" width="280" height="200" loading="lazy">
                 <h3>Smart TV Hisense 50”</h3>
                 <p>Schermo 4K HDR, colori brillanti e piattaforma VIDAA U per tutte le app streaming.</p>
             </article>
@@ -56,7 +56,7 @@ $promo = $promo ?? [];
                 <span>+</span>
             </div>
             <article class="bundle-card">
-                <img src="/assets/img/oven.svg" alt="Forno PizzaChef e Steam Pro" width="220" height="200" loading="lazy">
+                <img src="/assets/img/OVEN.png" alt="Forno PizzaChef e Steam Pro" width="220" height="200" loading="lazy">
                 <h3>Forno PizzaChef / Steam Pro</h3>
                 <p>Cottura professionale con programmi automatici e finiture full black abbinate alla cucina.</p>
             </article>

@@ -40,12 +40,20 @@ class SubscriptionController extends Controller
             return;
         }
 
-        $this->subscriptions->create($payload);
-        $this->mailer->sendLead($payload);
+        $sent = $this->mailer->sendLead($payload);
+
+        if ($sent) {
+            $this->subscriptions->create($payload);
+
+            $this->json([
+                'message' => 'Grazie! Ti ricontatteremo entro poche ore.',
+            ]);
+            return;
+        }
 
         $this->json([
-            'message' => 'Grazie! Ti ricontatteremo entro poche ore.',
-        ]);
+            'message' => 'Si è verificato un problema durante l\'invio. Riprova tra pochi minuti oppure contattaci telefonicamente.',
+        ], 500);
     }
 
     private function payload(): array

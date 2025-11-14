@@ -7,17 +7,26 @@ namespace App\Services;
 class MailService
 {
     private string $logPath;
+    private string $debugPath;
+    private bool $debug;
 
     public function __construct(private array $config, ?string $logPath = null)
     {
-        $this->logPath = $logPath ?? dirname(__DIR__, 2) . '/storage/mail.log';
+        $baseStorage = dirname(__DIR__, 2) . '/storage';
+        $this->logPath   = $logPath ?? $baseStorage . '/mail.log';
+        $this->debugPath = $baseStorage . '/mail_debug.log';
+        $this->debug     = (bool)($this->config['debug'] ?? true);
     }
 
     /**
-     * Invio della richiesta al team + (se abilitato) mail di conferma al cliente.
+     * Invio della richiesta al team + eventuale conferma al cliente
      */
     public function sendLead(array $payload): bool
     {
+        $this->logDebug('sendLead:start', [
+            'email' => $payload['email'] ?? null,
+        ]);
+
         $message = [
             'to'        => $this->parseAddresses($this->config['to'] ?? []),
             'cc'        => $this->parseAddresses($this->config['cc'] ?? []),
@@ -31,8 +40,8 @@ class MailService
         ];
 
         $sent = $this->deliver($message);
+        $this->logDebug('sendLead:deliver_result', ['sent' => $sent]);
 
-        // mail di conferma al cliente
         if (($this->config['confirm']['enabled'] ?? false) && !empty($payload['email'])) {
             $this->sendConfirmation($payload);
         }
@@ -59,17 +68,20 @@ class MailService
             'text'      => $this->formatConfirmationText($payload),
         ];
 
-        $this->deliver($message);
+        $this->logDebug('sendConfirmation:start', ['to' => $payload['email'] ?? null]);
+        $sent = $this->deliver($message);
+        $this->logDebug('sendConfirmation:deliver_result', ['sent' => $sent]);
     }
 
     /**
-     * Entry point invio: prova SMTP, poi mail(), infine log.
+     * Entry point invio: prova SMTP, poi mail(), poi log.
      */
     private function deliver(array $message): bool
     {
         $to = $this->parseAddresses($message['to'] ?? []);
 
         if (!$to) {
+            $this->logDebug('deliver:no_recipients');
             return false;
         }
 
@@ -92,12 +104,11 @@ class MailService
             $headers[] = 'Bcc: ' . implode(', ', $bcc);
         }
 
-        // Per SMTP, il messaggio completo (header + body)
-        $toHeader = implode(', ', $to);
+        $toHeader      = implode(', ', $to);
         $allRecipients = array_values(array_unique(array_merge($to, $cc, $bcc)));
 
-        $dateHeader       = 'Date: ' . date(DATE_RFC2822);
-        $messageIdHeader  = sprintf('Message-ID: <%s@%s>', bin2hex(random_bytes(8)), $_SERVER['SERVER_NAME'] ?? 'localhost');
+        $dateHeader      = 'Date: ' . date(DATE_RFC2822);
+        $messageIdHeader = sprintf('Message-ID: <%s@%s>', bin2hex(random_bytes(8)), $_SERVER['SERVER_NAME'] ?? 'localhost');
 
         $fullHeaders = array_merge(
             ["To: {$toHeader}"],
@@ -107,29 +118,43 @@ class MailService
 
         $rawMessage = implode("\r\n", $fullHeaders) . "\r\n\r\n" . $message['html'];
 
+        $this->logDebug('deliver:prepared', [
+            'to'      => $toHeader,
+            'subject' => $message['subject'] ?? null,
+        ]);
+
         $sent = false;
 
-        // 1) SMTP dal .env, se abilitato
+        // 1) SMTP dal .env
         $smtp = $this->config['smtp'] ?? [];
         if (!empty($smtp['enabled'])) {
+            $this->logDebug('deliver:smtp_attempt', [
+                'host'   => $smtp['host'] ?? null,
+                'port'   => $smtp['port'] ?? null,
+                'secure' => $smtp['secure'] ?? null,
+            ]);
             $sent = $this->sendViaSmtp($smtp, $allRecipients, $message['from'], $rawMessage);
+            $this->logDebug('deliver:smtp_result', ['sent' => $sent]);
         }
 
-        // 2) Fallback: mail()
+        // 2) Fallback mail()
         if (!$sent && function_exists('mail')) {
+            $this->logDebug('deliver:mail_function_attempt');
             $sent = mail($toHeader, $message['subject'], $message['html'], implode("\r\n", $headers));
+            $this->logDebug('deliver:mail_function_result', ['sent' => $sent]);
         }
 
-        // 3) Fallback finale: log su file
+        // 3) Log finale
         if (!$sent) {
             $this->fallbackToLog($message['subject'], $message['text'] ?? strip_tags($message['html']));
+            $this->logDebug('deliver:fallback_log_written');
         }
 
         return $sent;
     }
 
     /**
-     * Invio SMTP "puro" (senza librerie esterne).
+     * Invio SMTP “puro” con log dettagliato.
      */
     private function sendViaSmtp(array $smtp, array $recipients, string $from, string $rawMessage): bool
     {
@@ -140,100 +165,110 @@ class MailService
         $secure = strtolower((string)($smtp['secure'] ?? 'tls'));
 
         if (!$host || !$port) {
+            $this->logDebug('smtp:missing_config', compact('host', 'port'));
             return false;
         }
 
         $remote = ($secure === 'ssl' ? "ssl://{$host}" : $host);
+        $this->logDebug('smtp:connecting', compact('remote', 'port'));
 
-        $fp = @fsockopen($remote, $port, $errno, $errstr, 15.0);
+        $errno = $errstr = null;
+        $fp    = @fsockopen($remote, $port, $errno, $errstr, 15.0);
         if (!$fp) {
+            $this->logDebug('smtp:connect_failed', ['errno' => $errno, 'errstr' => $errstr]);
             return false;
         }
 
         stream_set_timeout($fp, 15);
 
-        if (!$this->smtpExpect($fp, [220])) {
+        if (!$this->smtpExpect($fp, [220], 'greeting')) {
             fclose($fp);
             return false;
         }
 
         $hostname = gethostname() ?: 'localhost';
-        if (!$this->smtpCommand($fp, "EHLO {$hostname}", [250])) {
-            $this->smtpCommand($fp, "HELO {$hostname}", [250]);
+        if (!$this->smtpCommand($fp, "EHLO {$hostname}", [250], 'ehlo')) {
+            $this->smtpCommand($fp, "HELO {$hostname}", [250], 'helo');
         }
 
-        // STARTTLS se richiesto
+        // STARTTLS
         if ($secure === 'tls') {
-            if (!$this->smtpCommand($fp, 'STARTTLS', [220])) {
+            if (!$this->smtpCommand($fp, 'STARTTLS', [220], 'starttls')) {
                 fclose($fp);
                 return false;
             }
             if (!stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+                $this->logDebug('smtp:tls_enable_failed');
                 fclose($fp);
                 return false;
             }
-            if (!$this->smtpCommand($fp, "EHLO {$hostname}", [250])) {
+            if (!$this->smtpCommand($fp, "EHLO {$hostname}", [250], 'ehlo_after_tls')) {
                 fclose($fp);
                 return false;
             }
         }
 
-        // AUTH LOGIN se user/pass
+        // AUTH LOGIN
         if ($user && $pass) {
-            if (!$this->smtpCommand($fp, 'AUTH LOGIN', [334])) {
+            if (!$this->smtpCommand($fp, 'AUTH LOGIN', [334], 'auth_login')) {
                 fclose($fp);
                 return false;
             }
-            if (!$this->smtpCommand($fp, base64_encode($user), [334])) {
+            if (!$this->smtpCommand($fp, base64_encode($user), [334], 'auth_user')) {
                 fclose($fp);
                 return false;
             }
-            if (!$this->smtpCommand($fp, base64_encode($pass), [235])) {
+            if (!$this->smtpCommand($fp, base64_encode($pass), [235], 'auth_pass')) {
                 fclose($fp);
                 return false;
             }
         }
 
-        if (!$this->smtpCommand($fp, "MAIL FROM:<{$from}>", [250])) {
+        if (!$this->smtpCommand($fp, "MAIL FROM:<{$from}>", [250], 'mail_from')) {
             fclose($fp);
             return false;
         }
 
         foreach ($recipients as $rcpt) {
-            $this->smtpCommand($fp, "RCPT TO:<{$rcpt}>", [250, 251]);
+            $this->smtpCommand($fp, "RCPT TO:<{$rcpt}>", [250, 251], 'rcpt_to');
         }
 
-        if (!$this->smtpCommand($fp, 'DATA', [354])) {
+        if (!$this->smtpCommand($fp, 'DATA', [354], 'data_cmd')) {
             fclose($fp);
             return false;
         }
 
-        // Invia il messaggio completo + terminatore
+        // DATA
         $raw = str_replace(["\r\n", "\n"], "\r\n", $rawMessage);
         $raw = preg_replace("/(^|\r\n)\./", "$1..", $raw); // dot-stuffing
         fwrite($fp, $raw . "\r\n.\r\n");
 
-        if (!$this->smtpExpect($fp, [250])) {
+        if (!$this->smtpExpect($fp, [250], 'data_end')) {
             fclose($fp);
             return false;
         }
 
-        $this->smtpCommand($fp, 'QUIT', [221]);
+        $this->smtpCommand($fp, 'QUIT', [221], 'quit');
         fclose($fp);
 
+        $this->logDebug('smtp:success');
         return true;
     }
 
-    private function smtpCommand($fp, string $command, array $expectedCodes): bool
+    private function smtpCommand($fp, string $command, array $expectedCodes, string $label): bool
     {
+        $this->logDebug("smtp:cmd_{$label}_send", ['command' => $command]);
         fwrite($fp, $command . "\r\n");
-        return $this->smtpExpect($fp, $expectedCodes);
+        return $this->smtpExpect($fp, $expectedCodes, $label);
     }
 
-    private function smtpExpect($fp, array $expectedCodes): bool
+    private function smtpExpect($fp, array $expectedCodes, string $label): bool
     {
         $code = $this->smtpReadCode($fp);
-        return in_array($code, $expectedCodes, true);
+        $ok   = in_array($code, $expectedCodes, true);
+        $this->logDebug("smtp:resp_{$label}", ['code' => $code, 'ok' => $ok]);
+
+        return $ok;
     }
 
     private function smtpReadCode($fp): int
@@ -247,11 +282,12 @@ class MailService
                 }
             }
         }
+
         return $code;
     }
 
     /**
-     * Helpers per formattazione email.
+     * Helpers di formattazione e logging.
      */
 
     private function parseAddresses(array|string $value): array
@@ -384,5 +420,21 @@ class MailService
         );
 
         file_put_contents($this->logPath, $entry, FILE_APPEND);
+    }
+
+    private function logDebug(string $label, array $context = []): void
+    {
+        if (!$this->debug) {
+            return;
+        }
+
+        $line = sprintf(
+            "[%s] %s %s\n",
+            date('c'),
+            $label,
+            $context ? json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : ''
+        );
+
+        @file_put_contents($this->debugPath, $line, FILE_APPEND);
     }
 }
