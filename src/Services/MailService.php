@@ -28,12 +28,12 @@ class MailService
         ]);
 
         $message = [
-            'to'        => $this->parseAddresses($this->config['to'] ?? []),
-            'cc'        => $this->parseAddresses($this->config['cc'] ?? []),
-            'bcc'       => $this->parseAddresses($this->config['bcc'] ?? []),
-            'subject'   => $this->formatSubject($this->config['subject'] ?? 'Nuova richiesta landing'),
-            'from'      => $this->config['from'] ?? 'no-reply@example.com',
-            'from_name' => $this->config['site_name'] ?? 'Landing Aran',
+            'to'        => $this->parseAddresses($this->config['MAIL_TO'] ?? ''),
+            'cc'        => $this->parseAddresses($this->config['MAIL_CC'] ?? ''),
+            'bcc'       => $this->parseAddresses($this->config['MAIL_BCC'] ?? ''),
+            'subject'   => $this->formatSubject('Nuova richiesta di appuntamento'),
+            'from'      => $this->config['MAIL_FROM'] ?? 'no-reply@example.com',
+            'from_name' => $this->config['SITE_NAME'] ?? 'Landing Aran',
             'reply_to'  => $payload['email'] ?? null,
             'html'      => $this->renderLeadTemplate($payload),
             'text'      => $this->formatPlainMessage($payload),
@@ -42,7 +42,7 @@ class MailService
         $sent = $this->deliver($message);
         $this->logDebug('sendLead:deliver_result', ['sent' => $sent]);
 
-        if (($this->config['confirm']['enabled'] ?? false) && !empty($payload['email'])) {
+        if ($this->config['CONFIRM_ENABLED'] && !empty($payload['email'])) {
             $this->sendConfirmation($payload);
         }
 
@@ -54,16 +54,14 @@ class MailService
      */
     private function sendConfirmation(array $payload): void
     {
-        $confirm = $this->config['confirm'] ?? [];
-
         $message = [
             'to'        => [$payload['email']],
             'cc'        => [],
             'bcc'       => [],
-            'subject'   => $confirm['subject'] ?? 'Abbiamo ricevuto la tua richiesta',
-            'from'      => $confirm['from'] ?? ($this->config['from'] ?? 'no-reply@example.com'),
-            'from_name' => $confirm['from_name'] ?? ($this->config['site_name'] ?? 'Aran Cucine'),
-            'reply_to'  => $confirm['from'] ?? ($this->config['from'] ?? null),
+            'subject'   => $this->config['CONFIRM_SUBJECT'] ?? 'Abbiamo ricevuto la tua richiesta',
+            'from'      => $this->config['CONFIRM_FROM'] ?? ($this->config['MAIL_FROM'] ?? 'no-reply@example.com'),
+            'from_name' => $this->config['CONFIRM_FROM_NAME'] ?? ($this->config['SITE_NAME'] ?? 'Aran Cucine'),
+            'reply_to'  => $this->config['CONFIRM_FROM'] ?? ($this->config['MAIL_FROM'] ?? null),
             'html'      => $this->renderConfirmationTemplate($payload),
             'text'      => $this->formatConfirmationText($payload),
         ];
@@ -113,7 +111,9 @@ class MailService
         $fullHeaders = array_merge(
             ["To: {$toHeader}"],
             [$dateHeader, $messageIdHeader],
+             ['Subject: ' . $message['subject']],
             $headers
+
         );
 
         $rawMessage = implode("\r\n", $fullHeaders) . "\r\n\r\n" . $message['html'];
@@ -126,14 +126,14 @@ class MailService
         $sent = false;
 
         // 1) SMTP dal .env
-        $smtp = $this->config['smtp'] ?? [];
-        if (!empty($smtp['enabled'])) {
+        $smtpEnabled = $this->config['SMTP_ENABLED'] ?? false;
+        if ($smtpEnabled) {
             $this->logDebug('deliver:smtp_attempt', [
-                'host'   => $smtp['host'] ?? null,
-                'port'   => $smtp['port'] ?? null,
-                'secure' => $smtp['secure'] ?? null,
+                'host'   => $this->config['SMTP_HOST'] ?? null,
+                'port'   => $this->config['SMTP_PORT'] ?? null,
+                'secure' => $this->config['SMTP_SECURE'] ?? null,
             ]);
-            $sent = $this->sendViaSmtp($smtp, $allRecipients, $message['from'], $rawMessage);
+            $sent = $this->sendViaSmtp($allRecipients, $message['from'], $rawMessage);
             $this->logDebug('deliver:smtp_result', ['sent' => $sent]);
         }
 
@@ -154,15 +154,15 @@ class MailService
     }
 
     /**
-     * Invio SMTP “puro” con log dettagliato.
+     * Invio SMTP "puro" con log dettagliato.
      */
-    private function sendViaSmtp(array $smtp, array $recipients, string $from, string $rawMessage): bool
+    private function sendViaSmtp(array $recipients, string $from, string $rawMessage): bool
     {
-        $host   = $smtp['host'] ?? null;
-        $port   = (int)($smtp['port'] ?? 587);
-        $user   = $smtp['user'] ?? null;
-        $pass   = $smtp['pass'] ?? null;
-        $secure = strtolower((string)($smtp['secure'] ?? 'tls'));
+        $host   = $this->config['SMTP_HOST'] ?? null;
+        $port   = (int)($this->config['SMTP_PORT'] ?? 587);
+        $user   = $this->config['SMTP_USER'] ?? null;
+        $pass   = $this->config['SMTP_PASS'] ?? null;
+        $secure = strtolower((string)($this->config['SMTP_SECURE'] ?? 'tls'));
 
         if (!$host || !$port) {
             $this->logDebug('smtp:missing_config', compact('host', 'port'));
@@ -301,7 +301,7 @@ class MailService
 
     private function renderLeadTemplate(array $payload): string
     {
-        $site = $this->config['site_name'] ?? 'Aran Cucine';
+        $site = $this->config['SITE_NAME'] ?? 'Aran Cucine';
         $rows = [
             'Nome e cognome' => $payload['full_name'] ?? '—',
             'Email'          => $payload['email'] ?? '—',
@@ -353,7 +353,7 @@ class MailService
 
     private function renderConfirmationTemplate(array $payload): string
     {
-        $site = $this->config['site_name'] ?? 'Aran Cucine';
+        $site = $this->config['SITE_NAME'] ?? 'Aran Cucine';
         $name = htmlspecialchars($payload['full_name'] ?? 'Cliente', ENT_QUOTES, 'UTF-8');
 
         return <<<HTML
@@ -398,13 +398,13 @@ class MailService
         return sprintf(
             "Ciao %s,\nabbiamo ricevuto la tua richiesta per la Promo Hisense. Ti ricontatteremo entro poche ore.\n\nGrazie,\n%s",
             $payload['full_name'] ?? 'Cliente',
-            $this->config['site_name'] ?? 'Aran Cucine'
+            $this->config['SITE_NAME'] ?? 'Aran Cucine'
         );
     }
 
     private function formatSubject(string $subject): string
     {
-        $site = $this->config['site_name'] ?? null;
+        $site = $this->config['SITE_NAME'] ?? null;
         return $site ? "[{$site}] {$subject}" : $subject;
     }
 

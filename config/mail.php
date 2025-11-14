@@ -1,36 +1,28 @@
 <?php
 
-declare(strict_types=1);
+use Dotenv\Dotenv;
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Impostazioni notifiche mail
-    |--------------------------------------------------------------------------
-    |
-    | I destinatari, mittenti e le opzioni di conferma vengono letti dal file .env.
-    | Se non presenti, vengono usati i valori di fallback definiti qui sotto.
-    |
-    */
-    'site_name' => env('SITE_NAME', 'ARAN Cucine Store Piacenza'),
-    'to' => env_array('MAIL_TO', ['info@arancucine-piacenza.it']),
-    'cc' => env_array('MAIL_CC', []),
-    'bcc' => env_array('MAIL_BCC', []),
-    'from' => env('MAIL_FROM', 'no-reply@arancucine-piacenza.it'),
-    'subject' => env('SUBJECT', 'Nuova richiesta Promo Hisense - Landing Aran Piacenza'),
-    'allowed_origins' => env_array('ALLOWED_ORIGINS', []),
-    'smtp' => [
-        'enabled' => (bool) env('SMTP_ENABLED', false),
-        'host' => env('SMTP_HOST'),
-        'port' => env('SMTP_PORT', 587),
-        'user' => env('SMTP_USER'),
-        'pass' => env('SMTP_PASS'),
-        'secure' => env('SMTP_SECURE', 'tls'),
-    ],
-    'confirm' => [
-        'enabled' => (bool) env('CONFIRM_ENABLED', false),
-        'subject' => env('CONFIRM_SUBJECT', 'Abbiamo ricevuto la tua richiesta'),
-        'from' => env('CONFIRM_FROM', env('MAIL_FROM', 'no-reply@arancucine-piacenza.it')),
-        'from_name' => env('CONFIRM_FROM_NAME', env('SITE_NAME', 'ARAN Cucine Store Piacenza')),
-    ],
+    'SITE_NAME' => $_ENV['SITE_NAME'] ?? 'ARAN Cucine Store Piacenza',
+    'MAIL_TO' => $_ENV['MAIL_TO'] ?? 'info@arancucine-piacenza.it',
+    'MAIL_CC' => $_ENV['MAIL_CC'] ?? '',
+    'MAIL_BCC' => $_ENV['MAIL_BCC'] ?? '',
+    'MAIL_FROM' => $_ENV['MAIL_FROM'] ?? 'no-reply@arancucine-piacenza.it',
+    'SUBJECT' => $_ENV['SUBJECT'] ?? 'Nuova richiesta Promo Hisense - Landing Aran Piacenza',
+    'ALLOWED_ORIGINS' => array_filter(explode(',', $_ENV['ALLOWED_ORIGINS'] ?? '')),
+    'SMTP_ENABLED' => filter_var($_ENV['SMTP_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN),
+    'SMTP_HOST' => $_ENV['SMTP_HOST'] ?? '',
+    'SMTP_PORT' => (int)($_ENV['SMTP_PORT'] ?? 587),
+    'SMTP_USER' => $_ENV['SMTP_USER'] ?? '',
+    'SMTP_PASS' => $_ENV['SMTP_PASS'] ?? '',
+    'SMTP_SECURE' => $_ENV['SMTP_SECURE'] ?? 'tls',
+    'CONFIRM_ENABLED' => filter_var($_ENV['CONFIRM_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN),
+    'CONFIRM_SUBJECT' => $_ENV['CONFIRM_SUBJECT'] ?? 'Abbiamo ricevuto la tua richiesta',
+    'CONFIRM_FROM' => $_ENV['CONFIRM_FROM'] ?? $_ENV['MAIL_FROM'] ?? 'no-reply@arancucine-piacenza.it',
+    'CONFIRM_FROM_NAME' => $_ENV['CONFIRM_FROM_NAME'] ?? $_ENV['SITE_NAME'] ?? 'ARAN Cucine Store Piacenza',
 ];
